@@ -18,6 +18,7 @@ func InitChiRouter() *chi.Mux {
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+	r.Use(middleware.Heartbeat("/health")) //AWS Health Check
 
 	// Set a timeout value on the request context (ctx), that will signal
 	// through ctx.Done() that the request has timed out and further
