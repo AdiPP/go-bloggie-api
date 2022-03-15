@@ -8,6 +8,6 @@ COPY . .
 
 RUN go mod tidy
 
-RUN go build -o payment-gateway-service
+RUN go build -o go-starter-template
 
-ENTRYPOINT ["/app/payment-gateway-service"]
+ENTRYPOINT ["/app/go-starter-template"]
