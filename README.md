@@ -1,6 +1,8 @@
 # Renos Go Repository Template
 
-![RenosXGolang](logo.png)
+<div align="center">
+<img src="https://github.com/Renos-id/go-starter-template/raw/master/logo.png" >
+</div>
 
 ## Project Architecture
 
@@ -20,7 +22,7 @@
 1. Click `use this template` button
 2. Replace all occurences of `go-starter-template` to `repo_name` in all files  
 3. Copy .env.example to .env and configure it.
-4. Edit README.md and remove this section. 
+4. Edit README.md and remove this section.
 
 ## Run Locally
 
