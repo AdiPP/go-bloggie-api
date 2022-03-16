@@ -1,4 +1,4 @@
-init-domain:
+domain-new:
 	touch domain/$$name.go && mkdir -p $$name/entities && mkdir -p $$name/delivery/http && mkdir -p $$name/delivery/grpc && mkdir -p $$name/repositories && mkdir -p $$name/usecases
 	
 run:
@@ -16,5 +16,8 @@ migrate-up:
 migrate-down:
 	go run cmd/command/command.go migrate down
 
-migrate-make:
+migrate-new:
 	go run cmd/command/command.go migrate make -f=$$filename
+
+test-test:
+	echo "test"
