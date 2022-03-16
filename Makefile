@@ -1,4 +1,4 @@
-domain-new:
+module-new:
 	touch domain/$$name.go && mkdir -p $$name/entities && mkdir -p $$name/delivery/http && mkdir -p $$name/delivery/grpc && mkdir -p $$name/repositories && mkdir -p $$name/usecases
 	
 run:
