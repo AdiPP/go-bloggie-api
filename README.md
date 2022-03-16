@@ -1,7 +1,7 @@
 # Renos Go Repository Template
 
 <div align="center">
-<img src="https://github.com/Renos-id/go-starter-template/raw/master/logo.png" >
+<img src="logo.png" >
 </div>
 
 ## Project Architecture
