@@ -1,5 +1,7 @@
 # Renos Go Repository Template
 
+![RenosXGolang](logo.png)
+
 ## Project Architecture
 
 [Golang Clean Architecture Example Repo](https://github.com/bxcodec/go-clean-arch)
@@ -99,13 +101,13 @@ Roll back to the latest migration operation
 Create New Migration File
 
 ```bash
-    make migration-make filename=create_example_table
+    make migration-new filename=create_example_table
 ```
 
 Create New Domain
 
 ```bash
-    make init-domain domain=domain_name
+    make domain-new name=domain_name
 ```
 
 ## Dependencies / Libraries
