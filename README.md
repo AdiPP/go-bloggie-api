@@ -73,6 +73,7 @@ Source: [Golang Clean Architecture Example Repo](https://github.com/bxcodec/go-c
 - Postgres
 - Air (Hot Reload) (<https://github.com/cosmtrek/air>)
 - Go (<https://go.dev/dl/>)
+- Goose (Go Migration) <https://github.com/pressly/goose#install=> <https://pressly.github.io/goose/installation/#linux>
 - Docker
 - Git
 - run makefile (for windows) (<https://gist.github.com/evanwill/0207876c3243bbb6863e65ec5dc3f058#make>)
@@ -89,7 +90,7 @@ Source: [Golang Clean Architecture Example Repo](https://github.com/bxcodec/go-c
 Clone the project
 
 ```bash
-  git clone https://github.com/Renos-id/payment-gateway-service.git
+  git clone https://github.com/Renos-id/go-starter-template.git
 ```
 
 Go to the project directory
@@ -148,22 +149,64 @@ Build Go Project
     make build
 ```
 
-Run all of outstanding migrations
+Migrate the DB to the most recent version available
 
 ```bash
     make migrate-up
 ```
 
-Roll back to the latest migration operation
+Migrate the DB up by 1
+
+```bash
+    make migrate-up-by-one
+```
+
+Migrate the DB to a specific VERSION
+
+```bash
+    make migrate-up-to version=00001
+```
+
+Roll back the version by 1
 
 ```bash
     make migrate-down
 ```
 
-Create New Migration File
+Roll back to a specific VERSION
 
 ```bash
-    make migration-new filename=create_example_table
+    make migrate-down-to version=00001
+```
+
+Re-run the latest migration
+
+```bash
+    make migrate-redo
+```
+
+Roll back all migrations
+
+```bash
+    make migrate-reset
+```
+
+Dump the migration status for the current DB
+
+```bash
+    make migrate-status
+```
+
+Creates new migration file with the current timestamp
+
+```bash
+    make migrate-create name=create_tests_table
+```
+
+Apply sequential ordering to migrations
+
+```bash
+    make migration-fix
 ```
 
 Create New Domain
@@ -179,4 +222,4 @@ Create New Domain
 - GoDotEnv (<https://github.com/joho/godotenv>)
 - Resty (<https://github.com/go-resty/resty>)
 - Cobra (<https://github.com/spf13/cobra>)
-- Go-Migrate (<https://github.com/golang-migrate/migrate>)
+- Goose (<https://github.com/pressly/goose>)
