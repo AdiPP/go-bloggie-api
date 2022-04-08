@@ -35,7 +35,7 @@ func InitChiRouter() *chi.Mux {
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}))
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		lib.ResponseJSON(w, 200, map[string]interface{}{
+		lib.ResponseJSON(w, 200, map[string]any{
 			"message": os.Getenv("APP_NAME"),
 			"version": 0.1,
 		})
