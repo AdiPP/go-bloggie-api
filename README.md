@@ -83,7 +83,8 @@ Source: [Golang Clean Architecture Example Repo](https://github.com/bxcodec/go-c
 1. Click `use this template` button
 2. Replace all occurences of `go-starter-template` to `repo_name` in all files  
 3. Copy .env.example to .env and configure it.
-4. Edit README.md and remove this section.
+4. Run ```bash make init-schema``` to create new schema.
+5. Edit README.md and remove this section.
 
 ## Run Locally
 
@@ -213,6 +214,12 @@ Create New Domain
 
 ```bash
     make module-new name=module_name
+```
+
+Init Schema
+
+```bash
+    make init-schema
 ```
 
 ## Dependencies / Libraries
