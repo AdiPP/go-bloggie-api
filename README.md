@@ -10,10 +10,7 @@
 ├── cmd
 │   ├── command
 │   │   └── command.go
-│   ├── migrate_down.go
-│   ├── migrate_make.go
-│   ├── migrate_up.go
-│   ├── migrate.go
+│   ├── init_schema.go
 │   └── root.go
 ├── database
 │   ├── migrations
@@ -71,9 +68,9 @@ Source: [Golang Clean Architecture Example Repo](https://github.com/bxcodec/go-c
 ## Requirements
 
 - Postgres
-- Gow (Hot Reload) (<https://github.com/mitranim/gow>)
+- CompileDaemon (Hot Reload) (<https://github.com/githubnemo/CompileDaemon>)
 - Go (<https://go.dev/dl/>)
-- Goose (Go Migration) <https://github.com/pressly/goose#install=> <https://pressly.github.io/goose/installation/#linux>
+- Goose (Go Migration) <https://github.com/pressly/goose#install> <https://pressly.github.io/goose/installation/#linux>
 - Docker
 - Git
 - run makefile (for windows) (<https://gist.github.com/evanwill/0207876c3243bbb6863e65ec5dc3f058#make>)
@@ -86,7 +83,17 @@ Source: [Golang Clean Architecture Example Repo](https://github.com/bxcodec/go-c
 4. Run ```bash make init-schema``` to create new schema.
 5. Edit README.md and remove this section.
 
-## Run Locally
+## Run via Visual Studio Code Dev Container
+Read this first: (<https://code.visualstudio.com/docs/remote/containers>)
+
+1. Press `CTRL+SHIFT+P` and type `Open Folder in Container`.
+2. Select the project folder you would like to set up the container for.
+3. Choose `dev.Dockerfile`
+4. Wait until container started.
+5. Open new terminal in VSCode Integrated Terminal.
+6. Run `make dev` command.
+
+## Run Locally (With All Requirements installed on your machine)
 
 Clone the project
 
@@ -127,16 +134,39 @@ or
 Start the server
 
 ```bash
-  make run
+  go run main.go
+```
+
+Run Hot Reload
+
+```bash
+  make dev
 ```
 
 or
 
 ```bash
-  go run main.go
+  CompileDaemon -build="go build -a -buildvcs=false -o go-starter-template" -command="./go-starter-template"
 ```
 
 ## Makefile commands
+
+Create New Module
+
+```bash
+    make module-new name=module_name
+```
+
+Init Schema
+
+```bash
+    make init-schema
+```
+
+Run Hot Reload for Development
+```bash
+    make dev
+```
 
 Run Go Project
 
@@ -208,18 +238,6 @@ Apply sequential ordering to migrations
 
 ```bash
     make migration-fix
-```
-
-Create New Domain
-
-```bash
-    make module-new name=module_name
-```
-
-Init Schema
-
-```bash
-    make init-schema
 ```
 
 ## Dependencies / Libraries

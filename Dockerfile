@@ -6,7 +6,11 @@ WORKDIR /app
 
 COPY . .
 
-RUN go mod tidy
+# Download all the dependencies
+RUN go get -d -v ./...
+
+# Install the package
+RUN go install -v ./...
 
 RUN go install github.com/pressly/goose/v3/cmd/goose@latest
 

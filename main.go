@@ -29,7 +29,12 @@ func main() {
 	//End Init DB
 	r := infrastructure.InitChiRouter()
 	infrastructure.InitZapLogger()
+	
+	port := os.Getenv("APP_PORT")
+	if port == "" { 
+		port = "8080"
+	}
 
-	fmt.Printf("%s running on PORT : %s \n", os.Getenv("APP_NAME"), os.Getenv("APP_PORT"))
-	http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("APP_PORT")), r)
+	fmt.Printf("%s running on PORT : %s \n", os.Getenv("APP_NAME"), port)
+	http.ListenAndServe(fmt.Sprintf(":%s", port), r)
 }

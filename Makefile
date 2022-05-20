@@ -13,7 +13,7 @@ run:
 	go run main.go
 
 dev:
-	air
+	CompileDaemon -build="go build -buildvcs=false -o go-starter-template" -command="./go-starter-template"
 
 build:
 	go build -o go-starter-template main.go
