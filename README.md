@@ -71,7 +71,7 @@ Source: [Golang Clean Architecture Example Repo](https://github.com/bxcodec/go-c
 ## Requirements
 
 - Postgres
-- Air (Hot Reload) (<https://github.com/cosmtrek/air>)
+- Gow (Hot Reload) (<https://github.com/mitranim/gow>)
 - Go (<https://go.dev/dl/>)
 - Goose (Go Migration) <https://github.com/pressly/goose#install=> <https://pressly.github.io/goose/installation/#linux>
 - Docker
@@ -224,9 +224,13 @@ Init Schema
 
 ## Dependencies / Libraries
 
-- Chi (<https://github.com/go-chi/chi>)
-- Sqlx (<https://github.com/jmoiron/sqlx>)
-- GoDotEnv (<https://github.com/joho/godotenv>)
-- Resty (<https://github.com/go-resty/resty>)
-- Cobra (<https://github.com/spf13/cobra>)
-- Goose (<https://github.com/pressly/goose>)
+- Chi (HTTP Service Router) (<https://github.com/go-chi/chi>)
+- Sqlx (Extension go's standard database/sql library) (<https://github.com/jmoiron/sqlx>)
+- GoDotEnv (Read .env files) (<https://github.com/joho/godotenv>)
+- Resty (HTTP & REST Client) (<https://github.com/go-resty/resty>)
+- Cobra (CLI Command) (<https://github.com/spf13/cobra>)
+- Goose (Database Migration & Seeder) (<https://github.com/pressly/goose>)
+- null (Handling with Nullable SQL & JSON values) (<https://github.com/guregu/null>)
+- govalidator (Validate HTTP Request data) (<https://github.com/thedevsaddam/govalidator>)
+- Zap (Logging) (<https://github.com/uber-go/zap>)
+- grpc-go (gRPC Server & Client) (<https://github.com/grpc/grpc-go>)
