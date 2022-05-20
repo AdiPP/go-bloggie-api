@@ -17,13 +17,15 @@ func init() {
 
 func main() {
 	//init DB
-	dbConn := database.Open()
-	defer func() {
-		err := dbConn.Close()
-		if err != nil {
-			log.Fatal(err)
-		}
-	}()
+	if os.Getenv("DB_HOST") != "" {
+		dbConn := database.Open()
+		defer func() {
+			err := dbConn.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+		}()
+	}
 	//End Init DB
 	r := infrastructure.InitChiRouter()
 	infrastructure.InitZapLogger()
