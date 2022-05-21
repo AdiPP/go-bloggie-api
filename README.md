@@ -83,17 +83,33 @@ Source: [Golang Clean Architecture Example Repo](https://github.com/bxcodec/go-c
 4. Run ```bash make init-schema``` to create new schema.
 5. Edit README.md and remove this section.
 
-## Run via Visual Studio Code Dev Container
-Read this first: (<https://code.visualstudio.com/docs/remote/containers>)
+## Run for Development (With Docker)
 
-1. Press `CTRL+SHIFT+P` and type `Open Folder in Container`.
-2. Select the project folder you would like to set up the container for.
-3. Choose `dev.Dockerfile`
-4. Wait until container started.
-5. Open new terminal in VSCode Integrated Terminal.
-6. Run `make dev` command.
+Clone the project
 
-## Run Locally (With All Requirements installed on your machine)
+```bash
+  git clone https://github.com/Renos-id/go-starter-template.git
+```
+
+Go to the project directory
+
+```bash
+  cd my-project
+```
+
+Copy example env and configure the env
+
+```bash
+    cp .env.example .env
+```
+
+Run Docker Compose Up
+
+```bash
+    docker-compose up --build
+```
+
+## Run for Development (With All Requirements installed on your machine)
 
 Clone the project
 
@@ -117,6 +133,18 @@ Install dependencies
 
 ```bash
   go mod download
+```
+
+Run Init Schema to create schema
+
+```bash
+    make migrate up
+```
+
+or
+
+```bash
+    go run cmd/command/command.go migrate up
 ```
 
 Run migrations
@@ -164,6 +192,7 @@ Init Schema
 ```
 
 Run Hot Reload for Development
+
 ```bash
     make dev
 ```

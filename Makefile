@@ -15,6 +15,9 @@ run:
 dev:
 	CompileDaemon -build="go build -buildvcs=false -o go-starter-template" -command="./go-starter-template"
 
+init-schema:
+	go run cmd/command/command.go init-schema
+
 build:
 	go build -o go-starter-template main.go
 

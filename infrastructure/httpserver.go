@@ -37,7 +37,6 @@ func InitChiRouter() *chi.Mux {
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		lib.ResponseJSON(w, 200, map[string]any{
 			"message": os.Getenv("APP_NAME"),
-			"data": "Hello World!!",
 			"version": 0.1,
 		})
 	})

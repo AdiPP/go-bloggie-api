@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 )
 
 func Open() *sqlx.DB {
