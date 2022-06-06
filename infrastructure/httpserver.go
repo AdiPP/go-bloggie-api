@@ -13,10 +13,12 @@ import (
 
 func InitChiRouter() *chi.Mux {
 	r := chi.NewRouter()
+	logger := InitLogger()
 	// A good base middleware stack
 	r.Use(middleware.RequestID)
+	r.Use(NewStructuredLogger(logger))
 	r.Use(middleware.RealIP)
-	r.Use(middleware.Logger)
+	// r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Heartbeat("/health")) //AWS Health Check
 

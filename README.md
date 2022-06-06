@@ -209,6 +209,18 @@ Build Go Project
     make build
 ```
 
+Seed the DB to the most recent version available
+
+```bash
+    make seed-up
+```
+
+Creates new seeders file with the current timestamp
+
+```bash
+    make seed-create name=tests_table_seeders
+```
+
 Migrate the DB to the most recent version available
 
 ```bash
@@ -279,5 +291,5 @@ Apply sequential ordering to migrations
 - Goose (Database Migration & Seeder) (<https://github.com/pressly/goose>)
 - null (Handling with Nullable SQL & JSON values) (<https://github.com/guregu/null>)
 - govalidator (Validate HTTP Request data) (<https://github.com/thedevsaddam/govalidator>)
-- Zap (Logging) (<https://github.com/uber-go/zap>)
+- Logrus (Logging) (<https://github.com/sirupsen/logrus>)
 - grpc-go (gRPC Server & Client) (<https://github.com/grpc/grpc-go>)

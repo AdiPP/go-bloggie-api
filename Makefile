@@ -4,7 +4,8 @@ ifneq (,$(wildcard ./.env))
     export
 endif
 
-default_migration_cmd := -dir database/migrations -table ${MIGRATION_TABLE_NAME} postgres "host=${DB_HOST} port=${DB_PORT} user=${DB_USERNAME} password=${DB_PASSWORD} dbname=${DB_DATABASE} sslmode=disable"
+default_migration_cmd := -dir database/migrations -table ${MIGRATION_TABLE_NAME} postgres "host=${DB_HOST} port=${DB_PORT} user=${DB_USERNAME} password=${DB_PASSWORD} dbname=${DB_DATABASE} sslmode=disable search_path=${DB_SCHEMA}"
+default_seeder_cmd := -no-versioning -dir database/seeders -table ${MIGRATION_TABLE_NAME} postgres "host=${DB_HOST} port=${DB_PORT} user=${DB_USERNAME} password=${DB_PASSWORD} dbname=${DB_DATABASE} sslmode=disable search_path=${DB_SCHEMA}"
 
 module-new:
 	touch domain/$$name.go && mkdir -p $$name/entities && mkdir -p $$name/delivery/http && mkdir -p $$name/delivery/grpc && mkdir -p $$name/repositories && mkdir -p $$name/usecases
@@ -13,7 +14,7 @@ run:
 	go run main.go
 
 dev:
-	CompileDaemon -build="go build -buildvcs=false -o go-starter-template" -command="./go-starter-template"
+	air
 
 init-schema:
 	go run cmd/command/command.go init-schema
@@ -53,4 +54,36 @@ migrate-create:
 
 migrate-fix:
 	goose $(default_migration_cmd) fix
-	
+
+seed-up:
+	goose $(default_seeder_cmd) up
+
+seed-up-by-one:
+	goose $(default_seeder_cmd) up-by-one
+
+seed-up-to:
+	goose $(default_seeder_cmd) up-to $$version
+
+seed-down:
+	goose $(default_seeder_cmd) down
+
+seed-down-to:
+	goose $(default_seeder_cmd) down-to $$version
+
+seed-redo:
+	goose $(default_seeder_cmd) redo
+
+seed-reset:
+	goose $(default_seeder_cmd) reset
+
+seed-status:
+	goose $(default_seeder_cmd) status
+
+seed-version:
+	goose $(default_seeder_cmd) version
+
+seed-create:
+	goose $(default_seeder_cmd) create $$name sql
+
+seed-fix:
+	goose $(default_seeder_cmd) fix

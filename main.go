@@ -28,10 +28,9 @@ func main() {
 	}
 	//End Init DB
 	r := infrastructure.InitChiRouter()
-	infrastructure.InitZapLogger()
-	
+
 	port := os.Getenv("APP_PORT")
-	if port == "" { 
+	if port == "" {
 		port = "8080"
 	}
 

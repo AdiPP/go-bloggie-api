@@ -1,37 +1,36 @@
 package infrastructure
 
 import (
-	"fmt"
+	"io"
 	"os"
 	"strconv"
 
-	"github.com/Renos-id/go-starter-template/infrastructure/zapslack"
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
+	"github.com/johntdyer/slackrus"
+	"github.com/sirupsen/logrus"
 )
 
-func InitZapLogger() *zap.Logger {
+func InitLogger() *logrus.Logger {
 	perDay, _ := strconv.Atoi(os.Getenv("LOG_ROTATOR_PER_DAY"))
-	w := zapcore.AddSync(&TimeWriter{
+	tw := &TimeWriter{
 		Dir:           "log/",
 		Compress:      true,
 		ReserveDay:    perDay,
 		LogFilePrefix: os.Getenv("APP_NAME"),
-	})
-	core := zapcore.NewCore(
-		zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig()),
-		zapcore.NewMultiWriteSyncer(zapcore.AddSync(os.Stdout), w),
-		zap.InfoLevel,
-	)
-	var logger *zap.Logger
-	//Check if Slack Webhook Url is set
-	if os.Getenv("SLACK_WEBHOOK_URL") != "" {
-		logger = zap.New(core, zap.AddCaller(), zap.Fields(), zap.Hooks(zapslack.NewSlackHook(os.Getenv("SLACK_WEBHOOK_URL"), zap.ErrorLevel, os.Getenv("APP_NAME")).GetHook()))
-	} else {
-		fmt.Println("No Slack")
-		logger = zap.New(core)
 	}
-	zap.ReplaceGlobals(logger)
-	defer logger.Sync()
+	logger := logrus.New()
+	// Log as JSON instead of the default ASCII formatter.
+	logrus.SetFormatter(&logrus.JSONFormatter{
+		DisableTimestamp: true,
+	})
+	logrus.SetOutput(io.MultiWriter(os.Stderr, tw))
+	logrus.SetReportCaller(true)
+
+	logrus.AddHook(&slackrus.SlackrusHook{
+		HookURL:        os.Getenv("SLACK_WEBHOOK_URL"),
+		AcceptedLevels: slackrus.LevelThreshold(logrus.ErrorLevel),
+		Channel:        os.Getenv("SLACK_CHANNEL_NAME"),
+		IconEmoji:      ":ghost:",
+		Username:       "foobot",
+	})
 	return logger
 }
