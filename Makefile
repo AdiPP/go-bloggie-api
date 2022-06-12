@@ -17,7 +17,7 @@ dev:
 	air
 
 init-schema:
-	go run cmd/command/command.go init-schema
+	go run console/command/command.go init-schema
 
 build:
 	go build -o go-starter-template main.go

@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/Renos-id/go-starter-template/cmd"
+	"github.com/Renos-id/go-starter-template/console"
 	"github.com/joho/godotenv"
 )
 
@@ -16,5 +16,5 @@ func init() {
 
 }
 func main() {
-	cmd.Execute()
+	console.Execute()
 }

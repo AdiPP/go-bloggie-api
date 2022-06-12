@@ -7,7 +7,7 @@
 ## Project Architecture
 
 ```bash
-├── cmd
+├── console
 │   ├── command
 │   │   └── command.go
 │   ├── init_schema.go
@@ -78,10 +78,11 @@ Source: [Golang Clean Architecture Example Repo](https://github.com/bxcodec/go-c
 ## How to use this template
 
 1. Click `use this template` button
-2. Replace all occurences of `go-starter-template` to `repo_name` in all files  
-3. Copy .env.example to .env and configure it.
-4. Run ```bash make init-schema``` to create new schema.
-5. Edit README.md and remove this section.
+2. Replace all occurences of `go-starter-template` to `repo_name` in all files
+3. If `repo_name` have dash (-) , change MIGRATION_TABLE_NAME value in env to snake_case
+4. Copy .env.example to .env and configure it.
+5. Run ```bash make init-schema``` to create new schema.
+6. Edit README.md and remove this section.
 
 ## Run for Development (With Docker)
 
@@ -138,25 +139,25 @@ Install dependencies
 Run Init Schema to create schema
 
 ```bash
-    make migrate up
+    make init-schema
 ```
 
 or
 
 ```bash
-    go run cmd/command/command.go migrate up
+    go run cmd/command/command.go init-schema
 ```
 
 Run migrations
 
 ```bash
-    make migrate up
+    make migrate-up
 ```
 
-or
+Run seeders
 
 ```bash
-    go run cmd/command/command.go migrate up
+    make seed-up
 ```
 
 Start the server
@@ -165,7 +166,7 @@ Start the server
   go run main.go
 ```
 
-Run Hot Reload
+Or Run Hot Reload
 
 ```bash
   make dev
