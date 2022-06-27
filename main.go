@@ -10,14 +10,33 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Renos-id/go-starter-template/database"
 	"github.com/Renos-id/go-starter-template/infrastructure"
-
-	_ "github.com/lib/pq"
+	"github.com/Renos-id/go-starter-template/lib/response"
 )
 
 func init() {
 	infrastructure.InitLoadEnv()
+}
+
+func service() http.Handler {
+	//init DB
+	// var dbConn *sqlx.DB
+	// if os.Getenv("DB_HOST") != "" {
+	// 	dbConn = database.Open()
+	// }
+	//End Init DB
+	logger := infrastructure.InitLogger()
+	r := infrastructure.InitChiRouter(logger)
+
+	response.SetLoggerForResponse(logger)
+
+	port := os.Getenv("APP_PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	fmt.Printf("%s running on PORT : %s \n", os.Getenv("APP_NAME"), port)
+	return r
 }
 
 func main() {
@@ -34,8 +53,8 @@ func main() {
 		<-sig
 
 		// Shutdown signal with grace period of 30 seconds
-		shutdownCtx, _ := context.WithTimeout(serverCtx, 30*time.Second)
-
+		shutdownCtx, cancelFunc := context.WithTimeout(serverCtx, 30*time.Second)
+		defer cancelFunc()
 		go func() {
 			<-shutdownCtx.Done()
 			if shutdownCtx.Err() == context.DeadlineExceeded {
@@ -60,27 +79,4 @@ func main() {
 
 	// Wait for server context to be stopped
 	<-serverCtx.Done()
-}
-
-func service() http.Handler {
-	//init DB
-	if os.Getenv("DB_HOST") != "" {
-		dbConn := database.Open()
-		defer func() {
-			err := dbConn.Close()
-			if err != nil {
-				log.Fatal(err)
-			}
-		}()
-	}
-	//End Init DB
-	r := infrastructure.InitChiRouter()
-
-	port := os.Getenv("APP_PORT")
-	if port == "" {
-		port = "8080"
-	}
-
-	fmt.Printf("%s running on PORT : %s \n", os.Getenv("APP_NAME"), port)
-	return r
 }

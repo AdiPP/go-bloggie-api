@@ -21,7 +21,7 @@ func (l *StructuredLogger) NewLogEntry(r *http.Request) middleware.LogEntry {
 	entry := &StructuredLoggerEntry{Logger: logrus.NewEntry(l.Logger)}
 	logFields := logrus.Fields{}
 
-	logFields["ts"] = time.Now().Format(time.RFC1123)
+	logFields["ts"] = time.Now().Format(time.RFC3339)
 
 	if reqID := middleware.GetReqID(r.Context()); reqID != "" {
 		logFields["req_id"] = reqID
