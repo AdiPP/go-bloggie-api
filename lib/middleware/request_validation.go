@@ -12,7 +12,6 @@ import (
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
 	en_translations "github.com/go-playground/validator/v10/translations/en"
-	"github.com/sirupsen/logrus"
 )
 
 var (
@@ -23,8 +22,6 @@ var (
 func RequestValidation[K interface{}](data K) func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			logrus.Error("Error Create ROom")
-			resp := response.CommonResponse{}
 			decoder := json.NewDecoder(r.Body)
 			err := decoder.Decode(&data)
 			v = validator.New()
@@ -33,15 +30,15 @@ func RequestValidation[K interface{}](data K) func(next http.Handler) http.Handl
 			trans, _ := uni.GetTranslator("id")
 			_ = en_translations.RegisterDefaultTranslations(v, trans)
 			if err != nil {
-				resp = response.WriteError(500, "Failed decode Request in Request Validation", err)
-				resp.ToJSON(w)
+				resp := response.WriteError(500, "Failed decode Request in Request Validation", err)
+				resp.ToJSON(w, r)
 				return
 			}
 			err = v.Struct(data)
 			if err != nil {
 				errs := translateError(err, trans)
-				resp = response.WriteError(422, "Validation Failed", errs)
-				resp.ToJSON(w)
+				resp := response.WriteError(422, "Validation Failed", errs)
+				resp.ToJSON(w, r)
 				return
 			}
 			ctx := context.WithValue(r.Context(), "body", data)
@@ -57,7 +54,7 @@ func translateError(err error, trans ut.Translator) (errs response.ValidationErr
 	}
 	validatorErrs := err.(validator.ValidationErrors)
 	for _, e := range validatorErrs {
-		translatedErr := fmt.Sprintf(e.Translate(trans))
+		translatedErr := fmt.Sprint(e.Translate(trans))
 		errs = append(errors, response.ValidationError{
 			Field:   strings.ToLower(e.Field()),
 			Message: strings.Replace(translatedErr, "_", " ", 1),

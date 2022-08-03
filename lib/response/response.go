@@ -5,20 +5,9 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-	"os"
 
-	"github.com/Renos-id/go-starter-template/lib"
-
-	"github.com/sirupsen/logrus"
+	"github.com/Renos-id/go-starter-template/infrastructure/httplog"
 )
-
-var (
-	logger *logrus.Logger
-)
-
-func SetLoggerForResponse(logr *logrus.Logger) {
-	logger = logr
-}
 
 type CommonResponse struct {
 	Status  bool   `json:"status"`
@@ -30,12 +19,24 @@ type CommonResponse struct {
 }
 
 // respondwithJSON write json response format
-func (cr CommonResponse) ToJSON(w http.ResponseWriter) {
+func (cr CommonResponse) ToJSON(w http.ResponseWriter, r *http.Request) {
 	response, _ := json.Marshal(cr)
+	if IsApiFailed(cr.Code) {
+		if cr.Code != 422 {
+			sendToSlack(response, r, cr.Code, cr.Note)
+		}
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(cr.Code)
 	w.Write(response)
 	return
+}
+
+func sendToSlack(crb []byte, r *http.Request, code int, note string) {
+	mapData := make(map[string]any)
+	json.Unmarshal(crb, &mapData)
+	oplog := httplog.LogEntry(r.Context())
+	oplog.Error().Fields(mapData).Int("httpCode", code).Interface("httpBodyRequest", r.Context().Value("body")).Msg(note)
 }
 
 func WriteSuccess(message string, data any) CommonResponse {
@@ -67,20 +68,15 @@ func WriteError(code int, note string, err any) CommonResponse {
 		case sql.ErrNoRows:
 			body.Message = "Data does not exists!"
 		case io.EOF:
-			body.Message = "Failed to read HTTP Request"
+			body.Error = "Failed to read HTTP Request"
 		default:
-			body.Message = e.Error()
+			body.Error = e.Error()
 		}
+	case map[string]string:
+		body.Data = err
 	default:
 		body.Error = err
 	}
-
-	logger.WithFields(logrus.Fields{
-		"env":          os.Getenv("APP_ENV"),
-		"err":          err,
-		"note":         note,
-		"api_response": lib.StructToJSON(body),
-	}).Error("Chat Service Error: " + note)
 
 	return body
 }

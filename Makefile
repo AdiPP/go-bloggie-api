@@ -8,7 +8,7 @@ default_migration_cmd := -dir database/migrations -table ${MIGRATION_TABLE_NAME}
 default_seeder_cmd := -no-versioning -dir database/seeders -table ${MIGRATION_TABLE_NAME} postgres "host=${DB_HOST} port=${DB_PORT} user=${DB_USERNAME} password=${DB_PASSWORD} dbname=${DB_DATABASE} sslmode=disable search_path=${DB_SCHEMA}"
 
 module-new:
-	touch domain/$$name.go && mkdir -p $$name/entities && mkdir -p $$name/delivery/http && mkdir -p $$name/delivery/grpc && mkdir -p $$name/repositories && mkdir -p $$name/usecases
+	touch domain/$$name.go && mkdir -p $$name/delivery/http && mkdir -p $$name/repositories && mkdir -p $$name/usecases
 	
 run:
 	go run main.go

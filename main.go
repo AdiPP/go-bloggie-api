@@ -11,7 +11,6 @@ import (
 	"time"
 
 	"github.com/Renos-id/go-starter-template/infrastructure"
-	"github.com/Renos-id/go-starter-template/lib/response"
 )
 
 func init() {
@@ -25,10 +24,7 @@ func service() http.Handler {
 	// 	dbConn = database.Open()
 	// }
 	//End Init DB
-	logger := infrastructure.InitLogger()
-	r := infrastructure.InitChiRouter(logger)
-
-	response.SetLoggerForResponse(logger)
+	r := infrastructure.InitChiRouter()
 
 	port := os.Getenv("APP_PORT")
 	if port == "" {

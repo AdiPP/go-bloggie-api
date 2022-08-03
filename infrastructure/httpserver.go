@@ -5,18 +5,20 @@ import (
 	"os"
 	"time"
 
+	"github.com/Renos-id/go-starter-template/infrastructure/httplog"
 	"github.com/Renos-id/go-starter-template/lib/response"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
-	"github.com/sirupsen/logrus"
 )
 
-func InitChiRouter(logger *logrus.Logger) *chi.Mux {
+func InitChiRouter() *chi.Mux {
 	r := chi.NewRouter()
+	logx, _, _ := CreateLogger("debug")
+
 	// A good base middleware stack
 	r.Use(middleware.RequestID)
-	r.Use(NewStructuredLogger(logger))
+	r.Use(httplog.RequestLogger(logx))
 	r.Use(middleware.RealIP)
 	// r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
@@ -38,7 +40,7 @@ func InitChiRouter(logger *logrus.Logger) *chi.Mux {
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		response := response.WriteSuccess(os.Getenv("APP_NAME"), map[string]any{})
-		response.ToJSON(w)
+		response.ToJSON(w, r)
 	})
 	return r
 }
