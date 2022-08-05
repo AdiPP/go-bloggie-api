@@ -5,7 +5,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/Renos-id/go-starter-template/infrastructure/httplog"
+	"github.com/go-chi/httplog"
+
 	"github.com/Renos-id/go-starter-template/lib/response"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -14,11 +15,14 @@ import (
 
 func InitChiRouter() *chi.Mux {
 	r := chi.NewRouter()
-	logx, _, _ := CreateLogger("debug")
+	// Logger
+	logger := httplog.NewLogger(os.Getenv("APP_NAME"), httplog.Options{
+		JSON: true,
+	})
 
 	// A good base middleware stack
 	r.Use(middleware.RequestID)
-	r.Use(httplog.RequestLogger(logx))
+	r.Use(httplog.RequestLogger(logger))
 	r.Use(middleware.RealIP)
 	// r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)

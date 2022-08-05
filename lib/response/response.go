@@ -5,9 +5,19 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"os"
 
-	"github.com/Renos-id/go-starter-template/infrastructure/httplog"
+	"github.com/Renos-id/go-starter-template/lib"
+	"github.com/sirupsen/logrus"
 )
+
+var (
+	log *logrus.Logger
+)
+
+func SetLogging(logg *logrus.Logger) {
+	log = logg
+}
 
 type CommonResponse struct {
 	Status  bool   `json:"status"`
@@ -33,10 +43,15 @@ func (cr CommonResponse) ToJSON(w http.ResponseWriter, r *http.Request) {
 }
 
 func sendToSlack(crb []byte, r *http.Request, code int, note string) {
-	mapData := make(map[string]any)
+	mapData := make(logrus.Fields)
 	json.Unmarshal(crb, &mapData)
-	oplog := httplog.LogEntry(r.Context())
-	oplog.Error().Fields(mapData).Int("httpCode", code).Interface("httpBodyRequest", r.Context().Value("body")).Msg(note)
+	log.WithField("App Name", os.Getenv("APP_NAME")).
+		WithField("Method", r.Method).
+		WithField("Request URL", r.URL).
+		WithField("Code", code).
+		WithFields(mapData).
+		WithField("HTTPBodyRequest", lib.StructToJSON(r.Context().Value("body"))).
+		Error(note)
 }
 
 func WriteSuccess(message string, data any) CommonResponse {
