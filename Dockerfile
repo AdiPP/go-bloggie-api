@@ -1,4 +1,4 @@
-FROM golang:1.18-alpine
+FROM golang:1.19-alpine
 
 RUN apk update && apk add --no-cache git make curl
 
@@ -13,7 +13,7 @@ RUN go mod tidy
 
 # Install the package
 RUN go install -v ./...
-#RUN go install github.com/pressly/goose/v3/cmd/goose@latest
+
 RUN export PATH=$PATH:/usr/local/go/bin
 RUN go build -o bin/go-starter-template
 

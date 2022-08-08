@@ -10,9 +10,8 @@ require (
 	github.com/go-playground/universal-translator v0.18.0
 	github.com/go-playground/validator/v10 v10.11.0
 	github.com/go-resty/resty/v2 v2.7.0
-	github.com/jmoiron/sqlx v1.3.4
+	github.com/jackc/pgx v3.6.2+incompatible
 	github.com/joho/godotenv v1.4.0
-	github.com/lib/pq v1.10.4
 	github.com/multiplay/go-slack v0.0.0-20220428123529-0762aee71fe3
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.4.0
@@ -20,11 +19,17 @@ require (
 )
 
 require (
+	github.com/cockroachdb/apd v1.1.0 // indirect
+	github.com/gofrs/uuid v4.2.0+incompatible // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
+	github.com/jackc/fake v0.0.0-20150926172116-812a484cc733 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/lib/pq v1.10.4 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rs/zerolog v1.27.0 // indirect
+	github.com/shopspring/decimal v1.3.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2 // indirect
 	golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8 // indirect

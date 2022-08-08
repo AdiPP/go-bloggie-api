@@ -1,16 +1,15 @@
 package database
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
-	"log"
 	"os"
 
-	"github.com/jmoiron/sqlx"
-	_ "github.com/lib/pq"
+	_ "github.com/jackc/pgx/stdlib"
 )
 
-func Open() *sqlx.DB {
+func Open() *sql.DB {
 	//Init DB
 	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable search_path=%s",
 		os.Getenv("DB_HOST"),
@@ -20,29 +19,17 @@ func Open() *sqlx.DB {
 		os.Getenv("DB_DATABASE"),
 		os.Getenv("DB_SCHEMA"),
 	)
-	dbConn, err := sqlx.Open("postgres", dsn)
+	conn, err := sql.Open("pgx", dsn)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
 	}
-	err = dbConn.Ping()
-	if err != nil {
-		log.Fatal(err)
-	}
-	return dbConn
+	return conn
 }
 
 func CreateSchema() (sql.Result, error) {
 	//Init DB
-	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_PORT"),
-		os.Getenv("DB_USERNAME"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_DATABASE"),
-	)
-	dbConn, err := sqlx.Open("postgres", dsn)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return dbConn.Exec(fmt.Sprintf("CREATE SCHEMA IF NOT EXISTS %s", os.Getenv("DB_SCHEMA")))
+	conn := Open()
+	defer conn.Close()
+	return conn.ExecContext(context.Background(), fmt.Sprintf("CREATE SCHEMA IF NOT EXISTS %s", os.Getenv("DB_SCHEMA")))
 }
