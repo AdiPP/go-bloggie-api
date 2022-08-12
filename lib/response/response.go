@@ -20,19 +20,20 @@ func SetLogging(logg *logrus.Logger) {
 }
 
 type CommonResponse struct {
-	Status  bool   `json:"status"`
-	Message string `json:"message"`
-	Note    string `json:"-"`
-	Data    any    `json:"data,omitempty"`
-	Error   any    `json:"error,omitempty"`
-	Code    int    `json:"-"`
+	Status      bool   `json:"status"`
+	Message     string `json:"message"`
+	Note        string `json:"-"`
+	Data        any    `json:"data,omitempty"`
+	Error       any    `json:"error,omitempty"`
+	Code        int    `json:"-"`
+	SendToSlack bool   `json:"-"`
 }
 
 // respondwithJSON write json response format
 func (cr CommonResponse) ToJSON(w http.ResponseWriter, r *http.Request) {
 	response, _ := json.Marshal(cr)
 	if IsApiFailed(cr.Code) {
-		if cr.Code != 422 {
+		if cr.SendToSlack {
 			sendToSlack(response, r, cr.Code, cr.Note)
 		}
 	}
@@ -56,23 +57,25 @@ func sendToSlack(crb []byte, r *http.Request, code int, note string) {
 
 func WriteSuccess(message string, data any) CommonResponse {
 	return CommonResponse{
-		Status:  true,
-		Message: message,
-		Data:    data,
-		Code:    200,
+		Status:      true,
+		Message:     message,
+		Data:        data,
+		Code:        200,
+		SendToSlack: false,
 	}
 }
 
-func WriteError(code int, note string, err any) CommonResponse {
+func WriteError(code int, note string, sendToSlack bool, err any) CommonResponse {
 	// var errors ValidationErrors
 	if code == 0 {
 		code = 500
 	}
 	var body = CommonResponse{
-		Status:  false,
-		Message: http.StatusText(code),
-		Note:    note,
-		Code:    code,
+		Status:      false,
+		Message:     http.StatusText(code),
+		Note:        note,
+		Code:        code,
+		SendToSlack: sendToSlack,
 	}
 
 	switch e := err.(type) {
