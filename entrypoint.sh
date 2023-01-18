@@ -1,7 +1,7 @@
 #!/bin/sh
 
 make init-schema
-make migrate-up
+make init-seeder
 
-chmod +x /app/bin/go-starter-template
-/app/bin/go-starter-template
+chmod +x /app/bin/bloggie
+/app/bin/bloggie

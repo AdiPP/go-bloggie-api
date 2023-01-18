@@ -1,14 +1,14 @@
-version: '3.3'
+version: "3.3"
 services:
-  api:
+  app:
     build:
       context: .
-      dockerfile: ./dev.Dockerfile
-    container_name: go-starter-template
+      dockerfile: ./Dockerfile
+    container_name: go-bloggie
     env_file:
       - .env
     ports:
       - 8080:${APP_PORT}
     volumes:
       - .:/app
-    command: CompileDaemon -polling -build="go build -buildvcs=false -o go-starter-template" -command="./go-starter-template"
+    command: CompileDaemon -polling -build="go build -buildvcs=false -o app/bin/bloggie cmd/server/main.go" -command="./app/bin/bloggie"
