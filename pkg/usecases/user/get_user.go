@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 	"github.com/adiputraaa/bloggie/pkg/entities"
+	"github.com/adiputraaa/bloggie/pkg/repository"
 )
 
 type GetUserParam struct {
@@ -10,5 +11,5 @@ type GetUserParam struct {
 }
 
 func (i *Interactor) GetUser(ctx context.Context, param *GetUserParam) (entities.User, error) {
-	return i.UserRepository.FindUser(ctx, &FindUserParam{Id: param.User})
+	return i.UserRepository.FindUser(ctx, &repository.FindUserParam{Id: param.User})
 }

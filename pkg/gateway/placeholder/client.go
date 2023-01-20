@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/adiputraaa/bloggie/pkg/entities"
-	"github.com/adiputraaa/bloggie/pkg/usecases/post"
+	"github.com/adiputraaa/bloggie/pkg/repository"
 	"net/http"
 )
 
@@ -49,7 +49,7 @@ func (pr *Client) FindAllPosts(_ context.Context) (posts entities.Posts, err err
 	return
 }
 
-func (pr *Client) FindAllPostsByUser(ctx context.Context, param *post.FindAllPostsByUserParam) (posts entities.Posts, err error) {
+func (pr *Client) FindAllPostsByUser(ctx context.Context, param *repository.FindAllPostsByUserParam) (posts entities.Posts, err error) {
 	ps, err := pr.FindAllPosts(ctx)
 
 	if err != nil {

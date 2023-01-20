@@ -1,9 +1,11 @@
 package user
 
+import "github.com/adiputraaa/bloggie/pkg/repository"
+
 type Interactor struct {
-	UserRepository IUserRepository
+	UserRepository repository.IUserRepository
 }
 
-func NewInteractor(repository IUserRepository) *Interactor {
+func NewInteractor(repository repository.IUserRepository) *Interactor {
 	return &Interactor{UserRepository: repository}
 }

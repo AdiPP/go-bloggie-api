@@ -1,10 +1,10 @@
 package main
 
 import (
+	"github.com/adiputraaa/bloggie/pkg/controller"
+	"github.com/adiputraaa/bloggie/pkg/gateway/placeholder"
+	"github.com/adiputraaa/bloggie/pkg/gateway/sqlite"
 	"github.com/adiputraaa/bloggie/pkg/infrastructure"
-	"github.com/adiputraaa/bloggie/pkg/interfaces/controller"
-	"github.com/adiputraaa/bloggie/pkg/interfaces/repository/placeholder"
-	"github.com/adiputraaa/bloggie/pkg/interfaces/repository/sqlite"
 	"github.com/adiputraaa/bloggie/pkg/usecases/post"
 	"github.com/adiputraaa/bloggie/pkg/usecases/user"
 	"github.com/doug-martin/goqu/v9"

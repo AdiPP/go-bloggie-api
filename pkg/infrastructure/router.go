@@ -1,7 +1,7 @@
 package infrastructure
 
 import (
-	"github.com/adiputraaa/bloggie/pkg/interfaces/controller"
+	"github.com/adiputraaa/bloggie/pkg/controller"
 	"github.com/ggicci/httpin"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"

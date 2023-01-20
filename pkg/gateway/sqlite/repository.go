@@ -3,7 +3,7 @@ package sqlite
 import (
 	"context"
 	"github.com/adiputraaa/bloggie/pkg/entities"
-	"github.com/adiputraaa/bloggie/pkg/usecases/user"
+	"github.com/adiputraaa/bloggie/pkg/repository"
 	"github.com/doug-martin/goqu/v9"
 )
 
@@ -15,7 +15,7 @@ func NewRepository(database *goqu.Database) *Repository {
 	return &Repository{Database: database}
 }
 
-func (ur *Repository) FindUser(ctx context.Context, param *user.FindUserParam) (user entities.User, err error) {
+func (ur *Repository) FindUser(ctx context.Context, param *repository.FindUserParam) (user entities.User, err error) {
 	dataset := ur.Database.From("users").Select("id", "username", "password", "email")
 	dataset = dataset.Where(goqu.Ex{"id": param.Id})
 
